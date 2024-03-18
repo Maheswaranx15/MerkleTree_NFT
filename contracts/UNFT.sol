@@ -89,6 +89,7 @@ contract pokpok is
     function mint(
         bytes32[] memory proof
     ) external virtual returns (uint256) {
+        require(claimedTokens[msg.sender] == false, "Address has already claimed a token");
         require(block.timestamp >= phase1 , "Pre-Sale started");
         block.timestamp > phase1 && block.timestamp <= phase1 + Duration 
         ?require(MerkleProof.verify(proof, whitelistRoot1, bytes32(uint256(uint160(msg.sender)))) , "Invalid proof or Phase1 Expired")
@@ -99,6 +100,7 @@ contract pokpok is
         uint256 _tokenId = totalSupply();
         _mint(_msgSender(),  _tokenId);
         _setTokenRoyalty(_tokenId, _msgSender(), rotaltyPercentage);
+        claimedTokens[msg.sender] = true;
         emit Claimed(_msgSender(), _tokenId);
         return  _tokenId;
     }

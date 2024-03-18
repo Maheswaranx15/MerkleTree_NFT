@@ -12,5 +12,11 @@ module.exports = {
       url: ALCHEMY_API_KEY,
       accounts: [DEPLOYER_PRIVATE_KEY]
     }
+    
+  },
+  etherscan: {
+    apiKey: {
+      sepolia: "XW8FARI4JVCRE6MIFDJNCK66H8P4N75A8G",
+    }
   },
 };

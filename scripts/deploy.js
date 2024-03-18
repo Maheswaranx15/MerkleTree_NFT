@@ -10,27 +10,28 @@ const fs = require("fs");
 async function main() {
   let name = 'PokPok'
   let symbol = 'PkPknft'
-  let hash = '0x1b0db6d03427e699f02df2bb95d45806c5160101b638027b76416c263b95a21c'
+  let hash = '0x3983846329ee5530fa629605af38fc55be04a87a25e078d01bdecce9296118a7'
   let BaseURI = 'https://ipfs.io/ipfs/QmQwa9yTQRCJ3TsU2qkZywwphAhDXWsaWN2j53daLs3S3p/'
-  const Contract = await hre.ethers.getContractFactory("pokpok");
-  const contract = await Contract.deploy(name,symbol,BaseURI,hash,hash,1710763988);
-  await contract.deployed();
+  // const Contract = await hre.ethers.getContractFactory("pokpok");
+  // const contract = await Contract.deploy(name,symbol,BaseURI,hash,hash,1710763988);
+  // await contract.deployed();
 
-  console.log(
-    `contract deployment address`, contract.address
-  );
+  // console.log(
+  //   `contract deployment address`, contract.address
+  // );
 
 
-  const Contractdata = {
-    address: contract.address,
-    abi: JSON.parse(contract.interface.format('json'))
-  }
+  // const Contractdata = {
+  //   address: contract.address,
+  //   abi: JSON.parse(contract.interface.format('json'))
+  // }
 
-  fs.writeFileSync('./contract.json', JSON.stringify(Contractdata))
+  // fs.writeFileSync('./contract.json', JSON.stringify(Contractdata))
 
   //Verify the smart contract using hardhat 
   await hre.run("verify:verify", {
-    address: contract.address,
+    address: '0x0ddd3a1547967d459029DaA565CA96E60f1Cf5B0',
+    constructorArguments: [name,symbol,BaseURI,hash,hash,1710763988]
   });
 
 }
