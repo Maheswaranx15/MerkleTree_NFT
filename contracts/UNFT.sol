@@ -84,10 +84,11 @@ contract pokpok is
         ?require(MerkleProof.verify(proof, whitelistRoot2, bytes32(uint256(uint160(msg.sender)))), "Invalid proof or Phase2 Expired") 
         :require(block.timestamp > phase1 + Duration*2 , "Open phase started");        
         require(totalSupply() < MAX_SUPPLY, "All tokens have been minted");
-        _mint(_msgSender(),  totalSupply());
-        _setTokenRoyalty(totalSupply(), _msgSender(), rotaltyPercentage);
-        emit Claimed(_msgSender(), totalSupply());
-        return  totalSupply();
+        uint256 _tokenId = totalSupply();
+        _mint(_msgSender(),  _tokenId);
+        _setTokenRoyalty(_tokenId, _msgSender(), rotaltyPercentage);
+        emit Claimed(_msgSender(), _tokenId);
+        return  _tokenId;
     }
 
     function tokenURI(uint256 tokenId)
