@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
-import "./common/ERC2981.sol";
+import "./Common/ERC2981.sol";
 
 contract pokpok is
     ERC721Enumerable,
@@ -18,7 +18,6 @@ contract pokpok is
     Ownable
 {
     uint256 public MAX_SUPPLY = 888;
-    uint256 private _tokenIdCounter;
     bytes32 public whitelistRoot1;
     bytes32 public whitelistRoot2;
     string private baseTokenURI;
@@ -71,7 +70,6 @@ contract pokpok is
     }
 
     function mint(
-        string memory _tokenURI,
         bytes32[] memory proof
     ) external virtual returns (uint256 _tokenId) {
         require(block.timestamp >= phase1 , "Pre-Sale started");
@@ -81,13 +79,11 @@ contract pokpok is
         ?require(MerkleProof.verify(proof, whitelistRoot2, bytes32(uint256(uint160(msg.sender)))), "Invalid proof or Phase2 Expired") 
         :require(block.timestamp > phase1 + Duration*2 , "Open phase started");        
         require(totalSupply() < MAX_SUPPLY, "All tokens have been minted");
-        _tokenId = _tokenIdCounter;
-        _mint(_msgSender(), _tokenId);
-        _setTokenURI(_tokenId, _tokenURI);
+        _mint(_msgSender(),  totalSupply());
+        _setTokenURI(_tokenId, "");
         _setTokenRoyalty(_tokenId, _msgSender(), 50);
-        _tokenIdCounter += 1;
-        emit Claimed(_msgSender(), _tokenId);
-        return _tokenId;
+        emit Claimed(_msgSender(), totalSupply());
+        return  totalSupply();
     }
 
     function tokenURI(uint256 tokenId)
