@@ -8,9 +8,12 @@ const hre = require("hardhat");
 const fs = require("fs");
 
 async function main() {
-
-  const Contract = await hre.ethers.getContractFactory("GamingContest");
-  const contract = await Contract.deploy();
+  let name = 'PokPok'
+  let symbol = 'PkPknft'
+  let hash = '0x1b0db6d03427e699f02df2bb95d45806c5160101b638027b76416c263b95a21c'
+  let BaseURI = 'https://ipfs.io/ipfs/QmQwa9yTQRCJ3TsU2qkZywwphAhDXWsaWN2j53daLs3S3p/'
+  const Contract = await hre.ethers.getContractFactory("pokpok");
+  const contract = await Contract.deploy(name,symbol,BaseURI,hash,hash,1710763988);
   await contract.deployed();
 
   console.log(

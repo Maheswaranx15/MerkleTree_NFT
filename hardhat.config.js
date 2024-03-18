@@ -8,7 +8,7 @@ module.exports = {
   solidity: "0.8.21",
 
   networks: {
-    sepolia: {
+    base_sepolia: {
       url: ALCHEMY_API_KEY,
       accounts: [DEPLOYER_PRIVATE_KEY]
     }

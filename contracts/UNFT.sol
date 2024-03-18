@@ -74,9 +74,21 @@ contract pokpok is
         baseTokenURI = _baseTokenURI;
     }
 
+    function checkValidityPhaseone(bytes32[] calldata _merkleProof) public view returns (bool){
+        bytes32 leaf = keccak256(abi.encodePacked(msg.sender));
+        require(MerkleProof.verify(_merkleProof, whitelistRoot1, leaf), "Incorrect proof");
+        return true; 
+    }
+
+    function checkValidityPhasetwo(bytes32[] calldata _merkleProof) public view returns (bool){
+        bytes32 leaf = keccak256(abi.encodePacked(msg.sender));
+        require(MerkleProof.verify(_merkleProof, whitelistRoot2, leaf), "Incorrect proof");
+        return true; 
+    }
+
     function mint(
         bytes32[] memory proof
-    ) external virtual returns (uint256 _tokenId) {
+    ) external virtual returns (uint256) {
         require(block.timestamp >= phase1 , "Pre-Sale started");
         block.timestamp > phase1 && block.timestamp <= phase1 + Duration 
         ?require(MerkleProof.verify(proof, whitelistRoot1, bytes32(uint256(uint160(msg.sender)))) , "Invalid proof or Phase1 Expired")
